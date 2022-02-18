@@ -5,7 +5,7 @@ let playerMoney = 10;
 
 
 let enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-let enemyHealth = 50;
+let enemyHealth = Math.floor(Math.random() * 21) + 40;
 let enemyAttack = 10;
 
 // Game States
@@ -27,7 +27,7 @@ let fight = function(enemyName) {
             // if yes, then leave fight
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight.");
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney",playerMoney)
                 break;
     }
@@ -38,7 +38,9 @@ let fight = function(enemyName) {
     // If the player choses to fight, then fight
     if (promptFight === "fight" || promptFight === "FIGHT") {
         //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` letiable
-        enemyHealth = enemyHealth - playerAttack;
+        let damage1 = randomNumber(playerAttack -3, playerAttack);
+
+        enemyHealth = Math.max(0,enemyHealth - damage1);
     
         // Log a resulting message to the console so we know that it worked.
         console.log(
@@ -46,7 +48,9 @@ let fight = function(enemyName) {
         );
 
         // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
-        playerHealth = playerHealth - enemyAttack;
+        let damage2 = randomNumber(enemyAttack -3, enemyAttack);
+
+        playerHealth = Math.max(0,playerHealth - damage2);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(
@@ -81,7 +85,7 @@ let fight = function(enemyName) {
 
 let startGame = function(){
     // reset stats
-    playerHealth = 100;
+    playerHealth = randomNumber(40,60);
     playerAttack = 25;
     playerMoney = 10;
 for(let i = 0; i < enemyNames.length; i++) {
@@ -157,6 +161,7 @@ let shop = function() {
             playerAttack = playerAttack + 6;
             playerMoney = playerMoney - 7;
             break;
+        case "LEAVE":
         case "leave":
             window.alert("Leaving the store.");
 
@@ -170,5 +175,11 @@ let shop = function() {
             break;
     }
 };
+
+let randomNumber = function(min,max) {
+    let value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+}
 
 startGame();
